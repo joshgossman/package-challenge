@@ -3,33 +3,35 @@ using com.mobiquity.packer.Models;
 using com.mobiquity.packer.Services.Interfaces;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace com.mobiquity.packer.Services
 {
 	public class PackageFileParser : IPackageFileParser
 	{
-		public PackageFileModel Parse(string filePath)
+		public PackageFileModel Parse(string fileContents)
 		{
 			try
 			{
                 var result = new PackageFileModel();
 
-                var file = new System.IO.StreamReader(filePath);
+                var file = new StringReader(fileContents);
                 var line = "";
 
                 while ((line = file.ReadLine()) != null)
                 {
                     var packageResult = new PackageModel();
 
-                    var lineItems = line.Split(new string[] { " : " }, StringSplitOptions.None);
-                    var packageItems = lineItems[1].Split(' ');
+                    var lineClean = line.Replace(" ", "");
+
+                    var lineItems = lineClean.Split(Constants.FILE_PARSE_PACKAGE_WEIGHT_DELIMITER);
+                    var packageItems = lineItems[1].Split(Constants.FILE_PARSE_PACKAGE_ITEM_DELIMITER, StringSplitOptions.RemoveEmptyEntries);
 
                     packageResult.WeightLimitInKg = int.Parse(lineItems[0]);
                     foreach (var packageItem in packageItems)
 					{
-                        var packageItemClean = packageItem.Split('(', ')')[1];
-                        var packageItemDetails = packageItemClean.Split(',');
+                        var packageItemDetails = packageItem.Split(Constants.FILE_PARSE_PACKAGE_ITEM_DETAIL_DELIMITER);
 
                         packageResult.PackageItems.Add(new PackageItemModel {
                             Index = int.Parse(packageItemDetails[0]),

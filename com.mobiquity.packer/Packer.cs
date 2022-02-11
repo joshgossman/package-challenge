@@ -1,10 +1,7 @@
 ﻿using com.mobiquity.packer.Exceptions;
 using com.mobiquity.packer.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace com.mobiquity.packer
 {
@@ -14,9 +11,14 @@ namespace com.mobiquity.packer
 		{
 			try
 			{
-				var packageService = new PackageService(new PackageFileParser());
+				if (!File.Exists(filePath))
+				{
+					throw new APIException("File cannot be found.");
+				}
 
-				var packageFile = packageService.ParsePackageFile(filePath);
+				var packageService = new PackageService(new PackageFileParser());
+				var fileContents = File.ReadAllText(filePath);
+				var packageFile = packageService.ParsePackageFile(fileContents);
 
 
 				return "";

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackageChallengeConsole", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.mobiquity.packer", "com.mobiquity.packer\com.mobiquity.packer.csproj", "{D41FECC2-1F53-48C0-8562-4AC806426093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5CC3E6A4-7881-4633-A9F5-917BEC163560}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D65E9436-669D-4877-ABB4-DEA3D5320B5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{D41FECC2-1F53-48C0-8562-4AC806426093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D41FECC2-1F53-48C0-8562-4AC806426093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D41FECC2-1F53-48C0-8562-4AC806426093}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CC3E6A4-7881-4633-A9F5-917BEC163560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CC3E6A4-7881-4633-A9F5-917BEC163560}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CC3E6A4-7881-4633-A9F5-917BEC163560}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CC3E6A4-7881-4633-A9F5-917BEC163560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65E9436-669D-4877-ABB4-DEA3D5320B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65E9436-669D-4877-ABB4-DEA3D5320B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65E9436-669D-4877-ABB4-DEA3D5320B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65E9436-669D-4877-ABB4-DEA3D5320B5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,5 @@
 ﻿using com.mobiquity.packer.Models;
 using com.mobiquity.packer.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace com.mobiquity.packer.Services
 {
@@ -17,9 +12,9 @@ namespace com.mobiquity.packer.Services
 			_packageFileParser = packageFileParser;
 		}
 
-		public PackageFileModel ParsePackageFile(string filePath)
+		public PackageFileModel ParsePackageFile(string fileContents)
 		{
-			return _packageFileParser.Parse(filePath);
+			return _packageFileParser.Parse(fileContents);
 		}
 	}
 }
