@@ -28,14 +28,14 @@ namespace com.mobiquity.packer.Services
                     var lineItems = lineClean.Split(Constants.FILE_PARSE_PACKAGE_WEIGHT_DELIMITER);
                     var packageItems = lineItems[1].Split(Constants.FILE_PARSE_PACKAGE_ITEM_DELIMITER, StringSplitOptions.RemoveEmptyEntries);
 
-                    packageResult.WeightLimitInKg = int.Parse(lineItems[0]);
+                    packageResult.WeightLimit = int.Parse(lineItems[0]);
                     foreach (var packageItem in packageItems)
 					{
                         var packageItemDetails = packageItem.Split(Constants.FILE_PARSE_PACKAGE_ITEM_DETAIL_DELIMITER);
 
                         packageResult.PackageItems.Add(new PackageItemModel {
                             Index = int.Parse(packageItemDetails[0]),
-                            WeightInKg = decimal.Parse(packageItemDetails[1], CultureInfo.InvariantCulture),
+                            Weight = decimal.Parse(packageItemDetails[1], CultureInfo.InvariantCulture),
                             Cost = int.Parse(Regex.Match(packageItemDetails[2], @"\d+").Value) //Remove non-numeric data and parse to int
                         });
 					}

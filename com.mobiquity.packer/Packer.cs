@@ -19,6 +19,7 @@ namespace com.mobiquity.packer
 				var packageService = new PackageService(new PackageFileParser());
 				var fileContents = File.ReadAllText(filePath);
 				var packageFile = packageService.ParsePackageFile(fileContents);
+				var result = packageService.SortPackages(packageFile.PackageModels);
 
 
 				return "";
