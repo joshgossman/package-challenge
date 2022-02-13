@@ -65,9 +65,11 @@ namespace UnitTests
                 }
             };
 
-            var result = _packageService.ParseSortedPackagesToResult(_packageService.SortPackages(packageModels));
+            var result =_packageService.SortPackages(packageModels);
 
-            Assert.That(result, Is.EqualTo("1,3"));
+            Assert.That(result[0].PackageItems.Count, Is.EqualTo(2));
+            Assert.That(result[0].PackageItems[0].Index, Is.EqualTo(1));
+            Assert.That(result[0].PackageItems[1].Index, Is.EqualTo(3));
         }
 
         [Test]
@@ -86,9 +88,13 @@ namespace UnitTests
                 }
             };
 
-            var result = _packageService.ParseSortedPackagesToResult(_packageService.SortPackages(packageModels));
+            var result = _packageService.SortPackages(packageModels);
 
-            Assert.That(result, Is.EqualTo("1,3"));
+
+
+            Assert.That(result[0].PackageItems.Count, Is.EqualTo(2));
+            Assert.That(result[0].PackageItems[0].Index, Is.EqualTo(1));
+            Assert.That(result[0].PackageItems[1].Index, Is.EqualTo(3));
         }
 
         [Test]
