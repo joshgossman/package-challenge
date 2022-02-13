@@ -6,6 +6,7 @@ namespace com.mobiquity.packer.Services.Interfaces
 	public interface IPackageService
 	{
 		PackageFileModel ParsePackageFile(string filePath);
-		string SortPackages(List<PackageModel> packages);
+		List<PackageModel> SortPackages(List<PackageModel> packages);
+		string ParseSortedPackagesToResult(List<PackageModel> packages);
 	}
 }

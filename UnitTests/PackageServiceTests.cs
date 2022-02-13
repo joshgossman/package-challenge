@@ -65,7 +65,7 @@ namespace UnitTests
                 }
             };
 
-            var result = _packageService.SortPackages(packageModels);
+            var result = _packageService.ParseSortedPackagesToResult(_packageService.SortPackages(packageModels));
 
             Assert.That(result, Is.EqualTo("1,3"));
         }
@@ -86,9 +86,61 @@ namespace UnitTests
                 }
             };
 
-            var result = _packageService.SortPackages(packageModels);
+            var result = _packageService.ParseSortedPackagesToResult(_packageService.SortPackages(packageModels));
 
             Assert.That(result, Is.EqualTo("1,3"));
+        }
+
+        [Test]
+        public void Parse_Sorted_Package_Items_Layout_Success_Multiple_Lines()
+        {
+            var packageModels = new List<PackageModel>
+            {
+                new PackageModel{
+                    WeightLimit = 100,
+                    PackageItems = new List<PackageItemModel>
+                    {
+                        new PackageItemModel{ Index = 1, Weight = 50, Cost = 50 },
+                        new PackageItemModel{ Index = 2, Weight = 50, Cost = 50 }
+                    }
+                },
+                new PackageModel{
+                    WeightLimit = 100,
+                    PackageItems = new List<PackageItemModel>
+                    {
+                        new PackageItemModel{ Index = 3, Weight = 50, Cost = 50 },
+                        new PackageItemModel{ Index = 5, Weight = 50, Cost = 50 }
+                    }
+                }
+            };
+
+            var result = _packageService.ParseSortedPackagesToResult(packageModels);
+
+            Assert.That(result, Is.EqualTo("1,2\r\n3,5"));
+        }
+
+        [Test]
+        public void Parse_Sorted_Package_Items_Layout_Success_No_Results()
+        {
+            var packageModels = new List<PackageModel>
+            {
+                new PackageModel{
+                    WeightLimit = 100,
+                    PackageItems = new List<PackageItemModel>
+                    {
+                        new PackageItemModel{ Index = 1, Weight = 50, Cost = 50 },
+                        new PackageItemModel{ Index = 2, Weight = 50, Cost = 50 }
+                    }
+                },
+                new PackageModel{
+                    WeightLimit = 100,
+                    PackageItems = new List<PackageItemModel>()
+                }
+            };
+
+            var result = _packageService.ParseSortedPackagesToResult(packageModels);
+
+            Assert.That(result, Is.EqualTo("1,2\r\n-"));
         }
     }
 }
