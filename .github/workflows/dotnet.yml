@@ -4,37 +4,28 @@ on:
   push:
     branches: [ master ]
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+env:
+  NUGET_VERSION: '5.3.1'           # set this to the dot net version to use
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build-and-deploy:
+    runs-on: windows-latest
     steps:
-      - task: NuGetToolInstaller@0
 
-      - task: NuGetCommand@2
-        inputs:
-          restoreSolution: '$(solution)'
+    # checkout the repo
+    - uses: actions/checkout@master  
+    
+    - name: Install Nuget
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: ${{ env.NUGET_VERSION}}
+    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
+      run: nuget restore
+  
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.0
+      #with:
+      #  vs-version: "[16.4,16.5]"  #Version of Visual Studio to search; defaults to latest if not specified
 
-      - task: VSBuild@1
-        inputs:
-          solution: '$(solution)'
-          msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-          platform: '$(buildPlatform)'
-          configuration: '$(buildConfiguration)'
-
-      - task: VSTest@2
-        inputs:
-          platform: '$(buildPlatform)'
-          configuration: '$(buildConfiguration)'
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish artifacts'
-        inputs:
-          PathtoPublish: $(build.artifactstagingdirectory)
-          ArtifactName: 'PublishBuildArtifacts'
+    - name: Run MSBuild
+      run: msbuild .\PackageChallenge.sln
