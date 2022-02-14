@@ -3,10 +3,7 @@ name: Build and test
 on:
   push:
     branches: [ master ]
-
-env:
-  NUGET_VERSION: '5.3.1'           # set this to the dot net version to use
-
+    
 jobs:
   build-and-deploy:
     runs-on: windows-latest
@@ -15,17 +12,20 @@ jobs:
     # checkout the repo
     - uses: actions/checkout@master  
     
-    - name: Install Nuget
-      uses: nuget/setup-nuget@v1
+    - name: Setup MSBuild Path
+      uses: warrenbuckley/Setup-MSBuild@v1
+       
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore PackageChallenge.sln
+ 
+    - name: Build and Publish Web App
+      run: msbuild PackageChallenge.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+ 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1.0.0
       with:
-        nuget-version: ${{ env.NUGET_VERSION}}
-    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
-      run: nuget restore
-  
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.0
-      with:
-        vs-version: "[16.6.2]"
-
-    - name: Run MSBuild
-      run: msbuild .\PackageChallenge.sln
+        name: published_webapp
+        path: bin\Release\Publish
