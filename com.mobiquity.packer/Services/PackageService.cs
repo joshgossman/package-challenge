@@ -83,7 +83,7 @@ namespace com.mobiquity.packer.Services
 			// Following solution derived from https://dotnetcoretutorials.com/2020/04/22/knapsack-algorithm-in-c/
 			var itemCount = packageItems.Count;
 
-			decimal[,] matrix = new decimal[itemCount + 1, factoredWeightLimit + 1];
+			int[,] matrix = new int[itemCount + 1, factoredWeightLimit + 1];
 
 			for (int i = 0; i <= itemCount; i++)
 			{
@@ -99,8 +99,7 @@ namespace com.mobiquity.packer.Services
 					var currentItem = packageItems[currentItemIndex];
 					if (currentItem.Weight * decimalWeightFactor <= w)
 					{
-						matrix[i, w] = Math.Max(currentItem.Cost + matrix[i - 1, w - (int)(currentItem.Weight * decimalWeightFactor)]
-												, matrix[i - 1, w]);
+						matrix[i, w] = Math.Max(currentItem.Cost + matrix[i - 1, w - (int)(currentItem.Weight * decimalWeightFactor)], matrix[i - 1, w]);
 					}
 					else
 					{
