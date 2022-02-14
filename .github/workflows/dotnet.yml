@@ -25,13 +25,6 @@ jobs:
  
     - name: Build
       run: msbuild PackageChallenge.sln /p:Configuration=Release
- 
-    - task: VSTest@2
-      inputs:
-        testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-          **\*test*.dll
-          !**\*TestAdapter.dll
-          !**\obj\**
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-        vsTestVersion: 'toolsInstaller'
+    
+    - name: Test
+      run: Get-ChildItem "UnitTests" -recurse | where {$_.extension -eq ".csproj"} | % { dotnet test $_.FullName }
