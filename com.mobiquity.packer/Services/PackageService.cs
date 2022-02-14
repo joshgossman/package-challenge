@@ -85,38 +85,23 @@ namespace com.mobiquity.packer.Services
 
 			decimal[,] matrix = new decimal[itemCount + 1, factoredWeightLimit + 1];
 
-			//Go through each item. 
 			for (int i = 0; i <= itemCount; i++)
 			{
-				//This loop basically starts at 0, and slowly gets bigger. 
-				//Think of it like working out the best way to fit into smaller bags and then keep building on that. 
 				for (int w = 0; w <= factoredWeightLimit; w++)
 				{
-					//If we are on the first loop, then set our starting matrix value to 0. 
 					if (i == 0 || w == 0)
 					{
 						matrix[i, w] = 0;
 						continue;
 					}
 
-					//Because indexes start at 0, 
-					//it's easier to read if we do this here so we don't think that we are reading the "previous" element etc. 
 					var currentItemIndex = i - 1;
 					var currentItem = packageItems[currentItemIndex];
-					//Is the weight of the current item less than W 
-					//(e.g. We could find a place to put it in the bag if we had to, even if we emptied something else?)
 					if (currentItem.Weight * decimalWeightFactor <= w)
 					{
-						//If I took this item right now, and combined it with other items
-						//Would that be bigger than what you currently think is the best effort now? 
-						//In other words, if W is 50, and I weigh 30. If I joined up with another item that was 20 (Or multiple that weigh 20, or none)
-						//Would I be better off with that combination than what you have right now?
-						//If not, then just set the value to be whatever happened with the last item 
-						//(may have fit, may have done the same thing and not fit and got the previous etc). 
 						matrix[i, w] = Math.Max(currentItem.Cost + matrix[i - 1, w - (int)(currentItem.Weight * decimalWeightFactor)]
 												, matrix[i - 1, w]);
 					}
-					//This item can't fit, so bring forward what the last value was because that's still the "best" fit we have. 
 					else
 					{
 						matrix[i, w] = matrix[i - 1, w];
