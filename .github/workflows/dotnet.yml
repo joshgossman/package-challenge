@@ -23,11 +23,15 @@ jobs:
     - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
       run: nuget restore
  
-    - name: Build and Publish Web App
-      run: msbuild PackageChallenge.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+    - name: Build
+      run: msbuild PackageChallenge.sln /p:Configuration=Release
  
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: published_webapp
-        path: bin\Release\Publish
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        vsTestVersion: 'toolsInstaller'
